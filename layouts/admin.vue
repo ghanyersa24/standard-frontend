@@ -40,6 +40,11 @@ export default {
           link: "/book",
           icon: "fas fa-book",
         },
+        {
+          name: "Reader",
+          link: "/reader",
+          icon: "fas fa-book-reader",
+        },
       ],
     };
   },

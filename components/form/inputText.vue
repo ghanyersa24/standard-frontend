@@ -1,8 +1,7 @@
 <template>
-  <div :class="addClass">
+  <div class="form-group" :class="addClass">
     <label for="inputEmail">{{ name }}</label>
-    <input id="inputEmail" v-model="val" :type="type" class="form-control" :placeholder="'input '+name">
-    <p>{{ val }}</p>
+    <input id="inputEmail" v-model="value" :type="type" class="form-control" :placeholder="'input '+name">
   </div>
 </template>
 <script>
@@ -10,7 +9,7 @@ export default {
   props: {
     addClass: {
       type: String,
-      default: "col-12",
+      default: "",
     },
     name: {
       type: String,
@@ -23,6 +22,16 @@ export default {
     type: {
       type: String,
       default: "text",
+    },
+  },
+  computed: {
+    value: {
+      get() {
+        return this.val;
+      },
+      set(val) {
+        this.$emit("value", val);
+      },
     },
   },
 };

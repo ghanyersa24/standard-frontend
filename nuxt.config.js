@@ -1,5 +1,6 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+  ssr: false,
   head: {
     title: "my-project",
     meta: [
@@ -20,6 +21,18 @@ export default {
         type: "text/css",
         href: "https://use.fontawesome.com/releases/v5.7.2/css/all.css",
       },
+      {
+        rel: "stylesheet",
+        type: "text/css",
+        href:
+          "https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css",
+      },
+      {
+        rel: "stylesheet",
+        type: "text/css",
+        href:
+          "https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css",
+      },
     ],
     script: [
       { src: "https://code.jquery.com/jquery-3.3.1.min.js" },
@@ -39,6 +52,11 @@ export default {
         src:
           "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js",
       },
+      { src: "https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" },
+      {
+        src:
+          "https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js",
+      },
       { src: "js/stisla.js" },
       { src: "js/scripts.js" },
       { src: "js/custom.js" },
@@ -46,7 +64,11 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ["@/assets/css/style.css", "@/assets/css/components.css"],
+  css: [
+    "@/assets/css/style.css",
+    "@/assets/css/components.css",
+    "@/assets/css/custom.css",
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [],
@@ -63,10 +85,13 @@ export default {
     "@nuxtjs/axios",
     // https://go.nuxtjs.dev/pwa
     "@nuxtjs/pwa",
+    "vue-sweetalert2/nuxt",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseUrl: "https://mybook-order.herokuapp.com/",
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
@@ -74,7 +99,9 @@ export default {
       lang: "en",
     },
   },
-
+  server: {
+    port: 8000,
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 };
