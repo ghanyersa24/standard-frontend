@@ -1,6 +1,5 @@
 <template>
   <div>
-    <title-stisla title="Daftar Student" />
     <floating-button link="/student/add" />
     <skeleton>
       <div class="table-responsive">
@@ -41,24 +40,25 @@ export default {
       users: this.$store.state.users.listUsers,
     };
   },
+  asyncData({ store }) {
+    store.dispatch("title/SET_TITLE", "LIST STUDENT");
+  },
   async mounted() {
     await this.getUsers();
-    await this.setDatatable();
+    // await this.setDatatable();
   },
 
   methods: {
     async getUsers() {
-      const {
-        data: { data: response },
-      } = await this.$axios({
-        method: "GET",
-        url: "users",
-      });
-
-      // this.users = response;
-      // this.users = this.$store.state.users.listUsers;
-      this.$store.dispatch("users/SET_LIST", response);
-      console.log(this.$store.state.users.listUsers);
+      if (this.users.length == 0) {
+        const {
+          data: { data: response },
+        } = await this.$axios({
+          method: "GET",
+          url: "users",
+        });
+        this.$store.commit("users/SET_LIST", response);
+      }
     },
     setDatatable() {
       $(document).ready(function () {

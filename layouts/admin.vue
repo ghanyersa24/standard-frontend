@@ -7,6 +7,7 @@
     <div class="main-content">
       <section class="section">
         <div class="section-body">
+          <title-stisla :title="$store.state.title.title" />
           <Nuxt />
         </div>
       </section>

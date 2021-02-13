@@ -6,7 +6,7 @@
         <ul class="navbar-nav mr-3">
           <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars" /></a></li>
           <li>
-            <p class="h3 text-white font-weight-bolder">HELLO</p>
+            <p class="h3 text-white font-weight-bolder">{{$store.state.title.title}}</p>
           </li>
         </ul>
       </form>

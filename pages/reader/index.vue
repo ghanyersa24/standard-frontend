@@ -1,6 +1,5 @@
 <template>
   <div>
-    <title-stisla title="Daftar Pembaca" />
     <skeleton>
       <div class="row">
         <div class="col-md-4">

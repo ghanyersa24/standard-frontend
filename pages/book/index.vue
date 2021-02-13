@@ -1,6 +1,5 @@
 <template>
   <div>
-    <title-stisla title="Daftar Buku" />
     <skeleton>
       <div class="row">
         <div class="offset-3 col-md-6">

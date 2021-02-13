@@ -1,6 +1,5 @@
 <template>
   <div>
-    <title-stisla :title="inputEmail" />
     <div class="row">
       <input-text val="ghany ersa" name="username" add-class="col-3" />
       <input-text val="Depok 1" name="address" add-class="col3" />
@@ -105,7 +104,8 @@ import inputText from "../components/form/inputText.vue";
 export default {
   components: { inputText },
   layout: "admin",
-  asyncData() {
+  asyncData({ store }) {
+    store.dispatch("title/SET_TITLE", "DASHBOARD");
     return {
       title: "TITLE ADMIN",
       description: "lorem ipsum dolor amit",

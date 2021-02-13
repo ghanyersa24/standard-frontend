@@ -1,6 +1,5 @@
 <template>
   <div>
-    <title-stisla title="Increment" />
     <skeleton>
       <div class="text-right">
         <button class="btn btn-secondary" type="button" @click="min"><i class="fas fa-minus"></i> Decrement</button>

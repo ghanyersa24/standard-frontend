@@ -1,6 +1,5 @@
 <template>
   <div>
-    <title-stisla title="Tambah Student" />
     <skeleton>
       <form @submit.prevent="addUser">
         <input-text name="Nama Lengkap" :val="user.name" @value="(val)=>this.user.name=val" />
