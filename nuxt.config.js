@@ -90,7 +90,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseUrl: "https://mybook-order.herokuapp.com/",
+    baseURL: "https://lit-basin-75259.herokuapp.com/",
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

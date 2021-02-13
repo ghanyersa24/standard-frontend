@@ -52,7 +52,7 @@ export default {
         data: { data: response },
       } = await this.$axios({
         method: "GET",
-        url: "https://mybook-order.herokuapp.com/users",
+        url: "users",
       });
       this.users = response;
     },
