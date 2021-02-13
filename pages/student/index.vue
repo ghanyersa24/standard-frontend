@@ -38,7 +38,7 @@ export default {
   layout: "admin",
   data() {
     return {
-      users: [],
+      users: this.$store.state.users.listUsers,
     };
   },
   async mounted() {
@@ -54,7 +54,11 @@ export default {
         method: "GET",
         url: "users",
       });
-      this.users = response;
+
+      // this.users = response;
+      // this.users = this.$store.state.users.listUsers;
+      this.$store.dispatch("users/SET_LIST", response);
+      console.log(this.$store.state.users.listUsers);
     },
     setDatatable() {
       $(document).ready(function () {

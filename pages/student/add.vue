@@ -2,7 +2,7 @@
   <div>
     <title-stisla title="Tambah Student" />
     <skeleton>
-      <form @submit="addUser">
+      <form @submit.prevent="addUser">
         <input-text name="Nama Lengkap" :val="user.name" @value="(val)=>this.user.name=val" />
         <input-text name=" Address" :val="user.address" @value="(val)=>this.user.address=val" />
         <input-text name="No Telepon" type="number" :val="user.phone" @value="(val)=>this.user.phone=val" />
@@ -37,15 +37,38 @@ export default {
     };
   },
   methods: {
+    async requestPost(endpoint, payload) {
+      return await this.$axios({
+        method: "POST",
+        url: endpoint,
+        data: payload,
+      }).then(({ data: res }) => {
+        if (res.success) {
+          this.$swal({
+            icon: "success",
+            title: "Berhasil!",
+            text: res.message,
+          });
+        } else {
+          this.$swal({
+            icon: "error",
+            title: "Gagal!",
+            text: res.message,
+          });
+        }
+        return res;
+      });
+    },
     addUser() {
       this.$swal({
         title: "Apakah kamu yakin",
         text: "menambahkan data " + this.user.name + " sebagai pengguna",
         icon: "warning",
         showCancelButton: true,
-      }).then(({ isDissmissed }) => {
+      }).then(async ({ isDissmissed }) => {
         if (!isDissmissed) {
-          console.log(this.user);
+          const response = await this.requestPost("users", this.user);
+          if (response.success) this.$router.push("/student");
         }
       });
     },
