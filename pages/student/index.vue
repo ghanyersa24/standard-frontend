@@ -6,12 +6,12 @@
         <table class="table" id="data-user">
           <thead>
             <tr>
-              <th>no</th>
-              <th>name</th>
-              <th>address</th>
-              <th>phone</th>
-              <th>gender</th>
-              <th>action</th>
+              <th>No</th>
+              <th>Name</th>
+              <th>Address</th>
+              <th>Phone</th>
+              <th>Gender</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -21,7 +21,10 @@
               <td>{{user.address}}</td>
               <td>{{user.phone}}</td>
               <td>{{user.gender}}</td>
-              <td><button class="btn btn-outline-primary" type="button">detail</button></td>
+              <td witdh="20%">
+                <button class="btn btn-outline-danger btn-sm" @click="del(user)" type="button"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-outline-primary btn-sm" @click="link(user)" type="button"><i class="fas fa-eye"></i> Detail</button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -45,24 +48,66 @@ export default {
   },
   async mounted() {
     await this.getUsers();
-    // await this.setDatatable();
+    await this.setDatatable();
   },
 
   methods: {
-    async getUsers() {
-      if (this.users.length == 0) {
+    async getUsers(force = false) {
+      if (this.users.length == 0 || force) {
         const {
           data: { data: response },
         } = await this.$axios({
           method: "GET",
           url: "users",
         });
-        this.$store.commit("users/SET_LIST", response);
+        this.$store.dispatch("users/SET_LIST", response);
+        this.users = response;
       }
     },
     setDatatable() {
       $(document).ready(function () {
         $("#data-user").DataTable();
+      });
+    },
+    link(user) {
+      this.$store.dispatch("users/SET_DETAIL", user);
+      this.$router.push("/student/detail/" + user.id);
+    },
+    del(user) {
+      this.$swal({
+        title: "Apakah kamu yakin?",
+        icon: "warning",
+        text: "menghapus data " + user.name,
+        showCancelButton: true,
+      }).then(async ({ isDissmissed }) => {
+        if (!isDissmissed) {
+          const req = await this.requestDelete("users", user);
+          if (req.success) {
+            this.getUsers(true);
+          }
+        }
+      });
+    },
+    async requestDelete(endpoint, payload) {
+      return await this.$axios({
+        method: "DELETE",
+        url: endpoint,
+        data: payload,
+      }).then(({ data: res }) => {
+        if (res.success) {
+          this.$swal({
+            icon: "success",
+            title: "Berhasil!",
+            text: res.message,
+          });
+        } else {
+          this.$swal({
+            icon: "error",
+            title: "Gagal!",
+            text: res.message,
+          });
+        }
+        return res;
       });
     },
   },

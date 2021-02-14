@@ -1,16 +1,7 @@
 <template>
   <div>
     <skeleton>
-      <form @submit.prevent="addUser">
-        <input-text name="Nama Lengkap" :val="user.name" @value="(val)=>this.user.name=val" />
-        <input-text name=" Address" :val="user.address" @value="(val)=>this.user.address=val" />
-        <input-text name="No Telepon" type="number" :val="user.phone" @value="(val)=>this.user.phone=val" />
-        <select-option-user :rows="gender" name="Jenis Kelamin" :val="user.gender" @value="(val)=>this.user.gender=val" />
-        <div class="text-right">
-          <nuxt-link class="btn btn-secondary mr-2" to="/student">Kembali</nuxt-link>
-          <button class="btn btn-primary" type="submit">Simpan</button>
-        </div>
-      </form>
+      <form-student :user="user" :formSubmit="addUser"/>
     </skeleton>
   </div>
 </template>
@@ -18,15 +9,12 @@
 import InputText from "../../components/form/inputText.vue";
 import SelectOptionUser from "../../components/form/selectOptionUser.vue";
 import skeleton from "../../components/partials/skeleton.vue";
+import FormStudent from "../../components/student/formStudent.vue";
 export default {
-  components: { skeleton, InputText, SelectOptionUser },
+  components: { skeleton, InputText, SelectOptionUser, FormStudent },
   layout: "admin",
   data() {
     return {
-      gender: [
-        { value: "M", label: "M" },
-        { value: "F", label: "F" },
-      ],
       user: {
         name: "",
         address: "",
