@@ -8,9 +8,11 @@
 <script>
 import skeleton from "../../../components/partials/skeleton.vue";
 import FormStudent from "../../../components/student/formStudent.vue";
+import request from "@/mixins/request";
 export default {
   components: { skeleton, FormStudent },
   layout: "admin",
+  mixins: [request],
   data() {
     return {
       user: this.$store.state.users.detail,
@@ -20,36 +22,14 @@ export default {
     if (!this.user.id) this.$router.push("/student");
   },
   methods: {
-    async requestPut(endpoint, payload) {
-      return await this.$axios({
-        method: "PUT",
-        url: endpoint,
-        data: payload,
-      }).then(({ data: res }) => {
-        if (res.success) {
-          this.$swal({
-            icon: "success",
-            title: "Berhasil!",
-            text: res.message,
-          });
-        } else {
-          this.$swal({
-            icon: "error",
-            title: "Gagal!",
-            text: res.message,
-          });
-        }
-        return res;
-      });
-    },
     updateForm() {
       this.$swal({
         title: "Apakah kamu yakin?",
         text: "memperbaruhi data " + this.user.name,
         icon: "warning",
         showCancelButton: true,
-      }).then(async ({ isDissmissed }) => {
-        if (!isDissmissed) {
+      }).then(async ({ isDismissed }) => {
+        if (!isDismissed) {
           const req = await this.requestPut("users", this.user);
           if (req.success) {
             this.$store.dispatch("users/UPDATE_LIST", this.user);

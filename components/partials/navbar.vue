@@ -159,12 +159,24 @@
               <i class="fas fa-cog" /> Settings
             </a>
             <div class="dropdown-divider" />
-            <a href="#" class="dropdown-item has-icon text-danger">
+            <button type="button" @click="logout()" class="dropdown-item has-icon text-danger">
               <i class="fas fa-sign-out-alt" /> Logout
-            </a>
+            </button>
           </div>
         </li>
       </ul>
     </nav>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$auth.logout();
+      localStorage.setItem("x-auth-token", "");
+      localStorage.setItem("name", "");
+      this.$router.push("/login");
+    },
+  },
+};
+</script>

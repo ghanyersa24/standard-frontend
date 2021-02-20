@@ -86,8 +86,31 @@ export default {
     // https://go.nuxtjs.dev/pwa
     "@nuxtjs/pwa",
     "vue-sweetalert2/nuxt",
+    "@nuxtjs/auth",
   ],
 
+  auth: {
+    strategies: {
+      local: {
+        user: false,
+        endpoints: {
+          login: {
+            url: "http://service.shiftacademy.id/ci/account/login",
+            method: "post",
+            propertyName: "data.token",
+          },
+          logout: false,
+          user: false,
+        },
+        tokenRequired: true,
+        tokenType: "",
+        tokenName: "x-auth-token",
+      },
+    },
+  },
+  router: {
+    middleware: ["auth"],
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: "https://lit-basin-75259.herokuapp.com/",

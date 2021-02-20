@@ -35,9 +35,11 @@
 <script>
 import skeleton from "@/components/partials/skeleton.vue";
 import FloatingButton from "../../components/atoms/floatingButton.vue";
+import request from "@/mixins/request";
 export default {
   components: { skeleton, FloatingButton },
   layout: "admin",
+  mixins: [request],
   data() {
     return {
       users: this.$store.state.users.listUsers,
@@ -54,12 +56,7 @@ export default {
   methods: {
     async getUsers(force = false) {
       if (this.users.length == 0 || force) {
-        const {
-          data: { data: response },
-        } = await this.$axios({
-          method: "GET",
-          url: "users",
-        });
+        const { data: response } = await this.requestGet("users");
         this.$store.dispatch("users/SET_LIST", response);
         this.users = response;
       }
@@ -74,41 +71,16 @@ export default {
       this.$router.push("/student/detail/" + user.id);
     },
     del(user) {
-      this.$swal({
-        title: "Apakah kamu yakin?",
-        icon: "warning",
-        text: "menghapus data " + user.name,
-        showCancelButton: true,
-      }).then(async ({ isDissmissed }) => {
-        if (!isDissmissed) {
-          const req = await this.requestDelete("users", user);
-          if (req.success) {
-            this.getUsers(true);
+      this.konfirm("menghapus data " + user.name).then(
+        async ({ isDissmissed }) => {
+          if (!isDissmissed) {
+            const req = await this.requestDelete("users", user);
+            if (req.success) {
+              this.getUsers(true);
+            }
           }
         }
-      });
-    },
-    async requestDelete(endpoint, payload) {
-      return await this.$axios({
-        method: "DELETE",
-        url: endpoint,
-        data: payload,
-      }).then(({ data: res }) => {
-        if (res.success) {
-          this.$swal({
-            icon: "success",
-            title: "Berhasil!",
-            text: res.message,
-          });
-        } else {
-          this.$swal({
-            icon: "error",
-            title: "Gagal!",
-            text: res.message,
-          });
-        }
-        return res;
-      });
+      );
     },
   },
 };

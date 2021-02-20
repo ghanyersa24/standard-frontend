@@ -49,5 +49,10 @@ export default {
       ],
     };
   },
+  mounted() {
+    if (!localStorage.getItem("x-auth-token")) {
+      this.$router.push("/login");
+    }
+  },
 };
 </script>
