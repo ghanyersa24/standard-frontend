@@ -1,167 +1,59 @@
 <template>
-  <div>
-    <div class="row">
-      <input-text val="ghany ersa" name="username" add-class="col-3" />
-      <input-text val="Depok 1" name="address" add-class="col3" />
-      <input-text val="082164xxxxx" name="phone" type="email" add-class="col-6" />
-
-      <div class="col-12">
-        <label for="inputEmail">Email address</label>
-        <input id="inputEmail" v-model="inputEmail" type="email" class="form-control" placeholder="name@example.com">
-        <p>{{ inputEmail }}</p>
-      </div>
-
-      <div class="col-12">
-        <label for="inputEmail">Description</label>
-        <textarea v-model="description" class="form-control" name="description" cols="30" rows="10" />
-        <p>{{ description }}</p>
-      </div>
-
-      <div class="col-12">
-        <label for="inputSelect">Faculty </label>
-        <select id="inputSelect" v-model="inputSelect" class="form-control">
-          <option value="Ilmu Komputer">
-            Ilmu Komputer
-          </option>
-          <option value="Ilmu Administrasi">
-            Ilmu Administrasi
-          </option>
-          <option value="Ekonomi dan Bisnis">
-            Ekonomi dan Bisnis
-          </option>
-        </select>
-        <p>{{ inputSelect }}</p>
-      </div>
-
-      <div class="col-12">
-        <label for="inputSelect">Faculty </label>
-        <select id="inputSelect" v-model="inputSelectVFor" class="form-control">
-          <option v-for="(item,index) in faculty" :key="index" :value="item">
-            {{ index+"---"+item }}
-          </option>
-        </select>
-        <p>{{ inputSelectVFor }}</p>
-      </div>
-
-      <div class="col-12">
-        <label for="inputSelect">university </label>
-        <select id="inputSelect" v-model="inputUniversity" class="form-control">
-          <option value="kerja">
-            Bekerja
-          </option>
-          <option v-for="univ in university" :key="univ.id" :value="univ.id">
-            {{ univ.name }}
-          </option>
-        </select>
-        <p>{{ inputUniversity }}</p>
-      </div>
-
-      <div class="col-6">
-        <h4 v-if="inputUniversity==3">
-          Hore aku kuliah di UI
-        </h4>
-        <h4 v-else-if="inputUniversity==0">
-          Kuliahku di bandung loh
-        </h4>
-        <h4 v-else-if="inputUniversity==5">
-          Wah aku di Bakrie
-        </h4>
-        <h4 v-else-if="inputUniversity==4">
-          Anak binus banget nih
-        </h4>
-        <h4 v-else>
-          AKU MUNGKIN LAGI KERJA
-        </h4>
-      </div>
-      <div class="col-6">
-        <h4 v-show="inputUniversity==3">
-          Hore aku kuliah di UI
-        </h4>
-        <h4 v-show="inputUniversity==0">
-          Kuliahku di bandung loh
-        </h4>
-        <h4 v-show="inputUniversity==5">
-          Wah aku di Bakrie
-        </h4>
-        <h4 v-show="inputUniversity==4">
-          Anak binus banget nih
-        </h4>
-        <h4 v-show="inputUniversity=='kerja'">
-          AKU MUNGKIN LAGI KERJA
-        </h4>
-      </div>
-      <div class="d-flex justify-content-center vh-100">
-        <div class="d-flex align-items-center">
-          {{ title }} <br> {{ student.name }} <br>{{ faculty[0] }} <br>
+  <div class="d-flex justify-content-center vh-100">
+    <div class="d-flex align-items-center vw-100">
+      <skeleton>
+        <div class="text-center">
+          <h1 class="mb-5">SANDBOX FRONTEND 1</h1>
         </div>
-      </div>
+        <div class="row">
+          <div class="col-md-4">
+            <input-add placeholder="Judul Buku" @value="(val)=>this.books.push(val)" />
+            <list-active type="buku" :list="books" @list="(val)=>this.books=val" />
+          </div>
+          <div class="col-md-4">
+            <input-add placeholder="Nama Pembaca" @value="(val)=>this.users.push(val)" />
+            <list-active type="pembaca" :list="users" @list="(val)=>this.users=val" />
+          </div>
+          <div class="col-md-4">
+            <select-option :books="books" :users="users" @reader="(val)=>this.readers=val" />
+            <list-active type="riwayat baca" :list="readers" @list="getReaders" />
+          </div>
+        </div>
+      </skeleton>
     </div>
   </div>
 </template>
-
 <script>
-import inputText from "../components/form/inputText.vue";
+import InputAdd from "../components/form/inputAdd.vue";
+import ListActive from "../components/list/listActive.vue";
+import titleStisla from "../components/partials/titleStisla.vue";
 export default {
-  components: { inputText },
-  layout: "admin",
-  asyncData({ store }) {
-    store.dispatch("title/SET_TITLE", "DASHBOARD");
-    return {
-      title: "TITLE ADMIN",
-      description: "lorem ipsum dolor amit",
-      student: {
-        name: "Ghany Abdillah Ersa",
-        faculty: "Ilmu Komputer",
-      },
-    };
-  },
+  components: { titleStisla, InputAdd, ListActive },
+  // layout: "admin",
   data() {
     return {
-      inputSelect: "Ilmu Administrasi",
-      inputSelectVFor: "Ilmu Administrasi",
-      inputUniversity: 3,
-      inputEmail: "",
-      faculty: ["Ilmu Komputer", "Ilmu Administrasi", "Ekonomi dan Bisnis"],
-      university: [
-        { id: 0, name: "ITB" },
-        { id: 3, name: "UI" },
-        { id: 4, name: "Binus" },
-        { id: 5, name: "Bakrie" },
-      ],
+      books: ["The Last Wizard", "of the Century"],
+      users: ["Ghany", "Abdillah", "Ersa"],
+      listReader: [{ user: "Ghany", book: "of the Century" }],
     };
+  },
+  computed: {
+    readers: {
+      set(value) {
+        this.listReader.push(value);
+      },
+      get() {
+        return this.listReader.map((item) => item.user + " - " + item.book);
+      },
+    },
+  },
+  methods: {
+    getReaders(values) {
+      this.listReader = values.map((item) => ({
+        user: item.split(" - ")[0],
+        book: item.split(" - ")[1],
+      }));
+    },
   },
 };
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>

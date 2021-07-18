@@ -143,15 +143,15 @@
         <li class="dropdown">
           <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
             <img alt="image" src="~/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
+            <div class="d-sm-none d-lg-inline-block">Hi, {{name}}</div>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <div class="dropdown-title">
               Logged in 5 min ago
             </div>
-            <a href="features-profile.html" class="dropdown-item has-icon">
+            <nuxt-link to="/profile" class="dropdown-item has-icon">
               <i class="far fa-user" /> Profile
-            </a>
+            </nuxt-link>
             <a href="features-activities.html" class="dropdown-item has-icon">
               <i class="fas fa-bolt" /> Activities
             </a>
@@ -170,6 +170,11 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      name: process.browser ? localStorage.getItem("name") : "",
+    };
+  },
   methods: {
     logout() {
       this.$auth.logout();

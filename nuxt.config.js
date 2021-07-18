@@ -95,7 +95,7 @@ export default {
         user: false,
         endpoints: {
           login: {
-            url: "http://service.shiftacademy.id/ci/account/login",
+            url: "/users/login",
             method: "post",
             propertyName: "data.token",
           },
@@ -109,11 +109,11 @@ export default {
     },
   },
   router: {
-    middleware: ["auth"],
+    // middleware: ["auth"],
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "https://lit-basin-75259.herokuapp.com/",
+    baseURL: "https://mybook-order.herokuapp.com/",
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
