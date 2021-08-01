@@ -1,37 +1,29 @@
 <template>
-  <div class="form-group" :class="addClass">
-    <label for="inputEmail">{{ name }}</label>
-    <input id="inputEmail" v-model="value" :type="type" class="form-control" :placeholder="'input '+name">
+  <div class="input-group ">
+    <input type="text" class="form-control rounded-pill" :placeholder="placeholder" style="height:50px" @keyup.enter="add" v-model="input">
+    <div class="input-group-append">
+      <button class="btn btn-outline-primary rounded-pill ml-3" type="button" @click="add" style="width:50px"> <i class="fas fa-plus"></i></button>
+    </div>
   </div>
 </template>
 <script>
 export default {
-  props: {
-    addClass: {
-      type: String,
-      default: "",
-    },
-    name: {
-      type: String,
-      default: "username",
-    },
-    val: {
-      type: String,
-      default: "xxxx",
-    },
-    type: {
-      type: String,
-      default: "text",
-    },
+  data() {
+    return {
+      input: "",
+    };
   },
-  computed: {
-    value: {
-      get() {
-        return this.val;
-      },
-      set(val) {
-        this.$emit("value", val);
-      },
+  props: {
+    placeholder: { type: String, default: "" },
+  },
+  methods: {
+    add() {
+      if (this.input) {
+        this.$emit("value", this.input);
+        this.input = "";
+      } else {
+        alert("input tidak boleh kosong");
+      }
     },
   },
 };
