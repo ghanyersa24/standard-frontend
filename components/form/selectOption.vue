@@ -1,5 +1,6 @@
 <template>
   <div class="input-group">
+    <!-- {{reader}} -->
     <div style="width:85%">
       <select class="form-control mb-3 rounded-pill" v-model="reader.user">
         <option value="" selected>Pilih pembaca</option>

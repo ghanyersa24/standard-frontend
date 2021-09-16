@@ -14,7 +14,6 @@
           <div class="row">
             <div class="col-md-4">
               <h6>PROGRAMMER</h6>
-              {{changeLeft}}
               <item-list v-for="(item) in leftList" :key="item.key" :index="item.key" :checked="item.checked" :name="item.name" @check="(val)=>{checkLeft(val)}" />
             </div>
             <div class="col-md-3 text-center">
@@ -24,7 +23,6 @@
             </div>
             <div class="col-md-4">
               <h6>ANALYST</h6>
-              {{changeRight}}
               <item-list v-for="(item) in rightList" :key="item.key" :index="item.key" :checked="item.checked" :name="item.name" @check="(val)=>{checkRight(val)}" />
             </div>
           </div>
